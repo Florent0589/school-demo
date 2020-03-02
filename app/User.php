@@ -97,7 +97,14 @@ class User extends Authenticatable
         $link  = env('APP_URL', 'http://12.0.0.1:8000').'/verify-account?token='.$token;
 
         $message = '';
-        $message .= 'Through student registration, you have created an account as a guardian, to verify your account please click link '.$link.' <br> Regards, <Br><br>'.env('APP_NAME');
+        if($role_id == Role::GURDIAN) {
+            $message .= 'Through student registration, you have created an account as a guardian, to verify your account please click link ' . $link . ' <br> Regards, <Br><br>' . env('APP_NAME');
+        }
+        else
+        {
+            $message .= 'You have created account successfully, to verify your account please click link ' . $link . ' <br> Regards, <Br><br>' . env('APP_NAME');
+        }
+
 
         try {
             $new_user::sendEmail($data['email'], 'Verify Account', $message);

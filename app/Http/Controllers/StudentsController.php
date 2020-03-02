@@ -406,7 +406,7 @@ class StudentsController extends Controller
 
     public function createUserAccout($data, $role_id)
     {
-
+        User::createUserAccount($data, $role_id);
     }
 
 }
