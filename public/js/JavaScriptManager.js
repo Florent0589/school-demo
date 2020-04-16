@@ -70,6 +70,11 @@ JavaScriptManager = {
 
     },
 
+    getTimeTablePeriod: function()
+    {
+        $('#TimeTablePeriod').modal('show');
+    },
+
     getMyDate: function (date_value) {
 
         $.get('/calender', {my_date: date_value}, function (data) {

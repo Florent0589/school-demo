@@ -49,7 +49,7 @@ Route::group(['middleware' => ['check-if-logged']], function(){
     Route::post('/grades', 'GradesController@store')->name('create-grade');
     Route::get('/grades/{id}/edit', 'GradesController@edit')->name('edit-grade');
     Route::post('/grades/{id}/edit', 'GradesController@update')->name('edit-grade');
-    Route::get('/grades/get-class/{id}', 'GradesController@getGradeClass');
+    Route::get('/grades/get-class/{id}', 'GradesController@getGradeClass')->name('list-grade');
 
     // Subjects
     Route::get('/subjects', 'SubjectsController@index')->name('list-subject');
@@ -108,3 +108,9 @@ Route::get('/no-allowed', function()
 {
     return view('no-allowed');
 });
+
+Route::get('facebook', function () {
+    return view('facebook');
+});
+Route::get('auth/facebook', 'UsersController@redirectToFacebook');
+Route::get('auth/facebook/callback', 'UsersController@handleFacebookCallback');

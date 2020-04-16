@@ -27,10 +27,19 @@ class SubjectsController extends Controller
      */
     public function index()
     {
+        $request_data = \request()->all();
+
         $subjects = Subject::orderBy('id' , 'DESC')->paginate(8);
         if(Auth::user()->role_id == Role::TUTOR)
         {
-            $subjects = Subject::where(['user_id' => Auth::user()->id])->orderBy('id' , 'DESC')->paginate(8);  
+            $subjects = Subject::where(['user_id' => Auth::user()->id])->orderBy('id' , 'DESC')->paginate(8);
+        }
+
+        if(isset($request_data['g']))
+        {
+            $grade = Grade::find($request_data['g']);
+            $subjects = Subject::where(['user_id' => Auth::user()->id, 'grade_id' => $request_data['g']])->orderBy('id' , 'DESC')->get();
+            return view('timetable.subjects', compact('subjects', 'grade'));
         }
 
         return view('subjects.index', compact('subjects'));

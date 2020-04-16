@@ -20,10 +20,16 @@ class GradesController extends Controller
      */
     public function index()
     {
+        $request_data = \request()->all();
+
         $grades = Grade::orderBy('id', 'DESC')->paginate(5);
         if(Auth::user()->role_id == Role::TUTOR)
         {
-            $grades = Grade::where(['user_id' => Auth::user()->id])->orderBy('id' , 'DESC')->paginate(8);  
+            $grades = Grade::where(['user_id' => Auth::user()->id])->orderBy('id' , 'DESC')->paginate(8);
+        }
+        if(isset($request_data['t']))
+        {
+            return view('timetable.index', compact('grades'));
         }
         return view('grades.grades', compact('grades'));
     }

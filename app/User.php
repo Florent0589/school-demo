@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'facebook_id',
     ];
 
     /**
@@ -94,7 +94,7 @@ class User extends Authenticatable
         $new_user->role_id                  = $role_id;
         $new_user->save();
 
-        $link  = env('APP_URL', 'http://12.0.0.1:8000').'/verify-account?token='.$token;
+        $link  = Config::get('may_values.APP_URL').'/verify-account?token='.$token;
 
         $message = '';
         if($role_id == Role::GURDIAN) {
@@ -113,4 +113,18 @@ class User extends Authenticatable
 
         }
     }
+
+    public function addNew($input)
+    {
+        $check = static::where('facebook_id',$input['facebook_id'])->first();
+
+
+        if(is_null($check)){
+            return static::create($input);
+        }
+
+
+        return $check;
+    }
+
 }

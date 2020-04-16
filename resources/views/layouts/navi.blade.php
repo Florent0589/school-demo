@@ -2,11 +2,11 @@
     <div class="container" >
         @if(isset($user_permission) && in_array('portal', $user_permission))
             <a class="navbar-brand" href="{{ url('/Portal') }}">
-                The Institute
+                {{ \Config::get('my_values.CLIENT') }}
             </a>
         @else
             <a class="navbar-brand" href="{{ url('/') }}">
-                The Institute
+                {{ \Config::get('my_values.CLIENT') }}
             </a>
         @endif
         @php
@@ -63,7 +63,7 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/grades">
+                        <a class="dropdown-item" href="/grades?t=y">
                             Timetable
                         </a>
                         <a class="dropdown-item" href="/calender">
@@ -108,16 +108,16 @@
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="">
-                                {{\Auth::user()->getRole(\Auth::user()->role_id)}}
+                                <i class="fa fa-user"></i> {{\Auth::user()->getRole(\Auth::user()->role_id)}}
                             </a>
                             <a class="dropdown-item" href="/profile/{{ \Auth::user()->id }}">
-                                {{ __('Profile') }}
+                                <i class="fa fa-user-secret"></i> {{ __('Profile') }}
                             </a>
                             <a class="dropdown-item" href="">
-                                {{ __('Change Password') }}
+                                <i class="fa fa-key"></i> {{ __('Change Password') }}
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}">
-                                {{ __('Logout') }}
+                                <i class="fa fa-power-off"></i> {{ __('Logout') }}
                             </a>
                         </div>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Calender;
+use App\Grade;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use \Auth;
@@ -68,21 +69,36 @@ class CalenderController extends Controller
 
         $strwidgetTags .= "<table class=\"table\"  style='padding: 5px;min-height: 80px;'>";
         $strwidgetTags .= "<thead class=\"thead-dark\">";
+
+        if(\request()->has('g')){
+            $strwidgetTags .= "<th scope=\"col\" >PERIOD</th>";
+            $strwidgetTags .= "<th scope=\"col\" >TIME</th>";
+        }
+
         $strwidgetTags .= "<th scope=\"col\" >MO</th>";
         $strwidgetTags .= "<th scope=\"col\" >TU</th>";
         $strwidgetTags .= "<th scope=\"col\" >WE</th>";
         $strwidgetTags .= "<th scope=\"col\" >TH</th>";
         $strwidgetTags .= "<th scope=\"col\" >FR</th>";
-        $strwidgetTags .= "<th scope=\"col\" style=\"color: #da7676;\">SA</th>";
-        $strwidgetTags .= "<th scope=\"col\" style=\"color: #da7676;\">SU</th>";
+
+        if(!\request()->has('g')){
+            $strwidgetTags .= "<th scope=\"col\" style=\"color: #da7676;\">SA</th>";
+            $strwidgetTags .= "<th scope=\"col\" style=\"color: #da7676;\">SU</th>";
+        }
+
         $strwidgetTags .= "</thead>";
         $strwidgetTags .= "<tbody>";
         for ($w = 1 - $week_day_first + 1; $w <= $days_count; $w = $w + 7):
 
                     $strwidgetTags .= "<tr style='padding: 10px;'>";
                         $counter = 0;
-
+                        if(\request()->has('g')){
+                            $strwidgetTags .= '<td onclick="JavaScriptManager.getTimeTablePeriod()" style="background-color: rgb(12, 84, 96); cursor: pointer; font-weight: bold; padding: 20px; text-align: center;"><i title="School Day" class="fa fa-ticket" style="float: left;"></i><br><input type="hidden" id="clicked_date" name="clicked_date" value="2020-04-0-1"><br></td>';
+                            $strwidgetTags .= '<td onclick="JavaScriptManager.getTimeTablePeriod()" style="background-color: rgb(12, 84, 96); cursor: pointer; font-weight: bold; padding: 20px; text-align: center;"><i title="School Day" class="fa fa-ticket" style="float: left;"></i><br><input type="hidden" id="clicked_date" name="clicked_date" value="2020-04-0-1"><br></td>';
+                        }
                         for ($d = $w; $d <= $w + 6; $d++):
+
+
 
                             $today = $year.'-'.$month.'-'.$d;
                             $add_notice = '';
@@ -93,13 +109,30 @@ class CalenderController extends Controller
                                 $add_notice = '<i class="fa fa-bell-o" style="" onclick="JavaScriptManager.addEventToCalender()"> '.count($today_events).'</i>';
                             }
 
-                            $date_weeknd = ($counter > 4) ? "color: #da7676;" : "";
+                            $school_day = '';
+                            $style_school_day = '';
+                            $onclick_event = '';
+                            if(\request()->has('g') && ($counter <= 4))
+                            {
+                                $school_day_format = ($d < 10) ? '0'.$d : $d;
+                                $current_school_day = $year.'-'.$month.'-'.$school_day_format;
+                                $school_day = '<i title="School Day" class="fa fa-ticket" style="float: left;"></i><br>';
+                                $school_day .= '<input type="hidden" id="clicked_date" name="clicked_date" value="'.$current_school_day.'"/>';
+                                $style_school_day = 'background-color:#0c5460;';
+                                $onclick_event = 'onclick="JavaScriptManager.getTimeTablePeriod()"';
+                            }
+
+                            $date_weeknd = ($counter > 4) ? "color: #da7676;" : "cursor: pointer;";
                             $cur_date    = ($current_day == $d) ? "background-color:#da7676; color:#fff;font-weight:bold;" : "";
 
-                            $strwidgetTags .= "<td onclick='' style=\"{$date_weeknd}{$cur_date}font-weight:bold; padding: 20px;\">";
-                            $strwidgetTags .= ($d > 0 ? ($d > $days_count ? '' : $d) : '') ;
-                            $strwidgetTags .= '<br>'. $add_notice;
-                            $strwidgetTags .= "</td>";
+                            if(\request()->has('g') && $date_weeknd == "cursor: pointer;" or \request()->has('g') == false) {
+
+                                $strwidgetTags .= "<td {$onclick_event} style=\"{$style_school_day}{$date_weeknd}{$cur_date}font-weight:bold; padding: 20px; text-align: center;\">";
+                                $strwidgetTags .= '' . $school_day;
+                                $strwidgetTags .= ($d > 0 ? ($d > $days_count ? '' : $d) : '');
+                                $strwidgetTags .= '<br>' . $add_notice;
+                                $strwidgetTags .= "</td>";
+                            }
                             $counter++;
 
                         endfor;
@@ -114,6 +147,11 @@ class CalenderController extends Controller
             return response()->json(['strwidgetTags' => $strwidgetTags, 'date' => $date, 'upcoming_events' => count($upcoming_events)]);
         }
 
+        if(\request()->has('g'))
+        {
+            $grade = Grade::find(\request()->get('g'));
+            return view('timetable.timetable', compact('upcoming_events', 'events', 'date', 'grade'));
+        }
         return view('learning-resource.index', compact('strwidgetTags', 'upcoming_events', 'events', 'date'));
     }
 
