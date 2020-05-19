@@ -46,7 +46,8 @@ JavaScriptManager = {
                 '                </tr>';
 
             $('#subject-amount').html(data_table);
-            $('#payment_total').val(data.total).setAttribute('readonly').css('font-weight', 'larger');
+            $('#payment_total').val(data.total).attr('readonly')
+            $('#payment_total').css('font-weight', 'larger');
 
         });
     },

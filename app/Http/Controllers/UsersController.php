@@ -232,4 +232,32 @@ class UsersController extends Controller
 
         }
     }
+
+    public function changePassword()
+    {
+      $id = \request()->all();
+      $user = User::find($id);
+      return view('users.change-password', compact('user'));
+    }
+
+    public function changeUserPassword()
+    {
+        $form_data  = \request()->all();
+        $id         = $form_data['id'];
+
+        $password   = $form_data['password'];
+        if($password == $form_data['confirm_password'])
+        {
+            $user = User::find($id);
+
+            if($user != null)
+            {
+                $user->password = \Hash::make($form_data['password']);
+                $user->save();
+
+                return redirect('/users')->with('success', 'Successfully Change User Password');
+            }
+        }
+        return redirect()->back()->with('error', 'Couldnt update user Password');
+    }
 }

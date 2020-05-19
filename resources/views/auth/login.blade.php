@@ -52,13 +52,17 @@
                         </div>
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-                                <a class="btn btn-link" href="">
-                                    {{ __('Forgot Your Password?') }}
-                                </a>
+                            <div class="col-md-6 offset-md-4">
+                                <div class="row">
+                                    <a class="btn btn-link" href="">
+                                        {{ __('Forgot Your Password?') }}
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Login') }}
+                                    </button>
+
+
+                                </div>
                             </div>
                         </div>
                     </form>

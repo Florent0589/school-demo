@@ -1,8 +1,8 @@
-@extends('layouts.portal')
+{{--@extends('layouts.portal')--}}
 
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
+{{--@section('content')--}}
+{{--    <div class="container">--}}
+{{--        <div class="row justify-content-center">--}}
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -127,7 +127,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
-        </div>
-    </div>
-    <script src="{{ asset('bootstrap/js/bootstrap.js') }}" defer></script>
-@endsection
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <script src="{{ asset('bootstrap/js/bootstrap.js') }}" defer></script>--}}
+{{--@endsection--}}

@@ -37,18 +37,18 @@
                         @foreach($modules as $index => $module)
                                 <tr class="btn-primary" >
                                     <td style='font-size:larger; padding:5px;'>
-                                        {{$index+1}}. 
+                                        {{$index+1}}.
                                         <input title="Select All" type="checkbox" class="" name="{{$module->id}}_perm_all" id="{{$module->id}}_perm_all" value="">
                                         {{ $module->name }} - {{ $module->description }}
                                     </td>
-                                    <td> 
+                                    <td>
                                     </td>
                                 </tr>
-                            
+
                             @foreach ($module->getModulePermissions($module->id) as $id => $permission)
                                 <tr>
                                     <td style='font-size:large;border-bottom:1px solid #ced4da !important;'>
-                                    {{$permission}} 
+                                    {{$permission}}
                                     </td>
                                     <td style="width:2%;">
                                         @if(in_array($id, $role_permissions))
@@ -67,7 +67,7 @@
                                     <button type="submit" class="btn btn-primary">
                                         {{ __('Submit') }}
                                     </button>
-                                    <a href="/subjects" class="btn btn-danger">
+                                    <a href="/roles" class="btn btn-danger">
                                         {{ __('Cancel') }}
                                     </a>
                                 </div>

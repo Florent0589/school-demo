@@ -27,8 +27,8 @@ Route::group(['middleware' => ['check-if-logged']], function(){
     Route::get('/users/{id}/delete', 'UsersController@destroy')->name('list-user');
     Route::get('/verify-account/{id}', 'UsersController@verifyAccount')->name('verify-user');
     Route::get('/profile/{id}', 'UsersController@profile')->name('profile');
-
-
+    Route::get('/users/change-password', 'UsersController@changePassword')->name('edit-user');
+    Route::post('/users/change-password', 'UsersController@changeUserPassword')->name('edit-user');
     // Access and Permissions
     Route::get('/roles', 'RolesController@index')->name('list-role');
     Route::get('/roles/create', 'RolesController@create')->name('create-role');
@@ -78,7 +78,7 @@ Route::group(['middleware' => ['check-if-logged']], function(){
     Route::post('/saveSubjects', 'StudentsController@saveSubjects')->name('create-student');
     Route::get('/saveStudent', 'StudentsController@saveStudent')->name('create-student');
     Route::get('/students/{id}', 'StudentsController@show')->name('view-student');
-    Route::get('/students/{id}/edit', 'StudentsController@edit');
+    Route::get('/students/{id}/edit', 'StudentsController@edit')->name('list-student');
     Route::get('/studentProfile/{id}', 'StudentsController@studentProfile')->name('academic-report');
     Route::get('/studentReport/{id}', 'StudentsController@academicReport')->name('academic-report');
     Route::post('/export-list', 'StudentsController@exportToPdf')->name('list-student');
@@ -114,3 +114,8 @@ Route::get('facebook', function () {
 });
 Route::get('auth/facebook', 'UsersController@redirectToFacebook');
 Route::get('auth/facebook/callback', 'UsersController@handleFacebookCallback');
+
+Route::get('/test', function ()
+{
+   return view('login');
+})->name('login');

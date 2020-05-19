@@ -13,6 +13,11 @@
                             <a class="btn btn-primary" href="/users/create">
                                 <i class="fa fa-plus"></i> Add
                             </a>
+                            @if(\Auth::user()->id != $user->id)
+                                <a class="btn btn-primary" href="/users/change-password">
+                                    <i class="fa fa-key"></i> Change Password
+                                </a>
+                            @endif
                         </div>
                     </div>
                     <form method="POST" action="/users/{{ $user->id }}/edit">
@@ -142,5 +147,52 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="student-data" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width:900px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="/change-password?id={{$user->id}}">
+                    <div class="modal-body">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                            <th>Change Password</th>
+                            <th></th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    New Password
+                                </td>
+                                <td>
+                                    <input type="password" class="form-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Confirm Password
+                                </td>
+                                <td>
+                                    <input type="password" class="form-control">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" >Change</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset('bootstrap/js/bootstrap.js') }}" defer></script>
 
 @endsection

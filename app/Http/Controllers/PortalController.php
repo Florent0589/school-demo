@@ -22,7 +22,7 @@ class PortalController extends Controller
         $gurdian = Gurdian::find($user->gurdian_id);
         $students = Student::where('gurdian_id', $gurdian->id)->get();
 
-        return view('portal.index', compact('user', 'gurdian', 'students'));
+        return view('tabs', compact('user', 'gurdian', 'students'));
     }
 
     /**
